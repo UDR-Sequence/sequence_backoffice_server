@@ -32,4 +32,10 @@ public class Admin extends BaseTimeEntity{
     @Enumerated(EnumType.STRING)
     @Column(name = "admin_role", nullable = false)
     private AdminRole adminRole;
+
+    public static Admin from(String username){
+        return Admin.builder()
+                .username(username)
+                .build();
+    }
 }
