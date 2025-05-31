@@ -27,6 +27,7 @@ public enum Code {
      */
     //유효하지 않은(잘못된) 입력값(40000 ~ 40099번대)
     INVALID_INPUT(HttpStatus.BAD_REQUEST, 40000, "잘못된 값이 존재합니다."),
+    BAD_REQUEST(HttpStatus.BAD_REQUEST, 40101,"잘못된 인자값을 요청하였습니다." ),
 
     //유효하지 않은 리소스(40100 ~ 40199번대
     USER_NOT_FOUND(HttpStatus.BAD_REQUEST, 40100, "사용자를 찾을 수 없습니다."),
@@ -38,7 +39,8 @@ public enum Code {
      * 500번대
      */
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 500, "예기치 못한 서버 오류가 발생했습니다."),
-    INTERNAL_SERVER_MINIO_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 500, "Minio 서버 오류가 발생했습니다.");
+    INTERNAL_SERVER_MINIO_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 500, "Minio 서버 오류가 발생했습니다."),
+    ;
 
     private final HttpStatus status;
     private final Integer code;
