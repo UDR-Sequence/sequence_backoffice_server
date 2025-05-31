@@ -34,7 +34,7 @@ class AdminAccountSignUpControllerTest {
                 "password",
                 "김대연",
                 "admin@example.com",
-                "SUPDER_ADMIN"
+                "ROLE_SUPER_ADMIN"
         );
 
         String requestJson = objectMapper.writeValueAsString(requestDto);
