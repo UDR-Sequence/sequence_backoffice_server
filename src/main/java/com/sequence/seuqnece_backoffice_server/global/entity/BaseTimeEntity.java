@@ -1,4 +1,4 @@
-package com.sequence.seuqnece_backoffice_server.entity;
+package com.sequence.seuqnece_backoffice_server.global.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

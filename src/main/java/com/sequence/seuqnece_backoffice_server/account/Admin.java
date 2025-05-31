@@ -1,6 +1,6 @@
 package com.sequence.seuqnece_backoffice_server.account;
 
-import com.sequence.seuqnece_backoffice_server.entity.BaseTimeEntity;
+import com.sequence.seuqnece_backoffice_server.global.entity.BaseTimeEntity;
 import com.sequence.seuqnece_backoffice_server.security.enums.AdminRole;
 import jakarta.persistence.*;
 import lombok.*;
