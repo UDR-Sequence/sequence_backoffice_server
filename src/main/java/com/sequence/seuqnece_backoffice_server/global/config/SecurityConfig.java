@@ -1,4 +1,4 @@
-package com.sequence.seuqnece_backoffice_server.config;
+package com.sequence.seuqnece_backoffice_server.global.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Arrays;
