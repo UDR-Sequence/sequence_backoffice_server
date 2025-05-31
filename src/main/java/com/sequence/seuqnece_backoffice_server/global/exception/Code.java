@@ -29,7 +29,7 @@ public enum Code {
     INVALID_INPUT(HttpStatus.BAD_REQUEST, 40000, "잘못된 값이 존재합니다."),
 
     //유효하지 않은 리소스(40100 ~ 40199번대
-
+    USER_NOT_FOUND(HttpStatus.BAD_REQUEST, 40100, "사용자를 찾을 수 없습니다."),
     //보안 관련(40200 ~ 40299번대)
     REQUIRED_LOGIN(HttpStatus.UNAUTHORIZED, 40200, "로그인이 필요합니다."),
     ACCESS_DENIED(HttpStatus.FORBIDDEN, 40204, "접근 권한이 없습니다."),

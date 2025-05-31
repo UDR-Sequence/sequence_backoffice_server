@@ -1,4 +1,4 @@
-package com.sequence.seuqnece_backoffice_server.account;
+package com.sequence.seuqnece_backoffice_server.account.entity;
 
 import com.sequence.seuqnece_backoffice_server.global.entity.BaseTimeEntity;
 import com.sequence.seuqnece_backoffice_server.security.enums.AdminRole;
