@@ -7,11 +7,15 @@ import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -20,60 +24,52 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final AdminUserDetailsService userDetailsService;
+        private final AdminUserDetailsService userDetailsService;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
 
+        @Bean
+        public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+                return config.getAuthenticationManager();
+        }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .cors((cors) -> cors
-                        .configurationSource(new CorsConfigurationSource() {
-                            @Override
-                            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-                                CorsConfiguration configuration = new CorsConfiguration();
-                                configuration.setAllowedOrigins(Arrays.asList(
-                                        "http://localhost:3000",
-                                        "https://parkdu7.github.io",
-                                        "https://sequence-zeta.vercel.app"
-                                ));
-                                configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                                configuration.setAllowCredentials(true);
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                http
+                                .cors((cors) -> cors
+                                                .configurationSource(new CorsConfigurationSource() {
+                                                        @Override
+                                                        public CorsConfiguration getCorsConfiguration(
+                                                                        HttpServletRequest request) {
+                                                                CorsConfiguration configuration = new CorsConfiguration();
+                                                                configuration.setAllowedOrigins(Arrays.asList(
+                                                                                "http://localhost:3000",
+                                                                                "https://parkdu7.github.io",
+                                                                                "https://sequence-zeta.vercel.app"));
+                                                                configuration.setAllowedMethods(Arrays.asList("GET",
+                                                                                "POST", "PUT", "DELETE", "OPTIONS"));
+                                                                configuration.setAllowCredentials(true);
+                                                                configuration.setAllowedHeaders(
+                                                                                Collections.singletonList("*"));
+                                                                return configuration;
+                                                        }
+                                                }))
+                                .csrf((csrf) -> csrf.disable())
+                                .formLogin(form -> form.disable())
+                                .sessionManagement(session -> session
+                                                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                                                .maximumSessions(1)
+                                                .maxSessionsPreventsLogin(false))
+                                .securityContext(context -> context
+                                                .securityContextRepository(new HttpSessionSecurityContextRepository()))
+                                .authorizeHttpRequests(auth -> auth
+                                                .requestMatchers("/api/admin/login", "/api/admin/accounts").permitAll()
+                                                .anyRequest().authenticated())
+                                .userDetailsService(userDetailsService);
 
-                                configuration.setAllowedHeaders(Collections.singletonList("*"));
-                                return configuration;
-                            }
-                        }))
-                .csrf((csrf) -> csrf.disable()); // 필요에 따라 유지
-
-        http
-            .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/admin/accounts").permitAll()
-                    .requestMatchers("/admin/login", "/css/**", "/js/**").permitAll()
-                    .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
-                    .loginPage("/admin/login")
-                    .loginProcessingUrl("/admin/login")
-                    .defaultSuccessUrl("/admin/dashboard", true)
-                    .permitAll()
-            )
-            .logout(logout -> logout
-                    .logoutUrl("/admin/logout")
-                    .logoutSuccessUrl("/admin/login?logout")
-                    .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID")
-            )
-            .sessionManagement(session -> session
-                    .maximumSessions(1)
-                    .maxSessionsPreventsLogin(false)
-            )
-            .userDetailsService(userDetailsService);
-
-        return http.build();
-    }
+                return http.build();
+        }
 }

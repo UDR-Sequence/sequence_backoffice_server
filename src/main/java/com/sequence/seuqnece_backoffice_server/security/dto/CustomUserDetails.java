@@ -1,12 +1,15 @@
 package com.sequence.seuqnece_backoffice_server.security.dto;
 
 import com.sequence.seuqnece_backoffice_server.account.entity.Admin;
-import java.util.List;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import java.util.Collection;
 
+import java.util.Collection;
+import java.util.Collections;
+
+@Getter
 public class CustomUserDetails implements UserDetails {
 
     private final Admin admin;
@@ -15,13 +18,10 @@ public class CustomUserDetails implements UserDetails {
         this.admin = admin;
     }
 
-    public Admin getAdmin() {
-        return admin;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(admin.getAdminRole().name()));
+        return Collections.singletonList(
+                new SimpleGrantedAuthority("ROLE_" + admin.getAdminRole().name()));
     }
 
     @Override
@@ -54,4 +54,3 @@ public class CustomUserDetails implements UserDetails {
         return true;
     }
 }
-

@@ -10,9 +10,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/admin/accounts")
+@RequestMapping("/api/admin")
 @RequiredArgsConstructor
-public class AdminAccountController {
+public class AdminSingUpController {
 
     private final AdminSignupService adminSignupService;
 
