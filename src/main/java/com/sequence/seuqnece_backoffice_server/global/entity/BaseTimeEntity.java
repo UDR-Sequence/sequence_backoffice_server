@@ -37,7 +37,7 @@ public abstract class BaseTimeEntity {
     @Column(length = 100)
     private String deletedBy;
 
-    @Column(nullable = false, columnDefinition = "BOOLEAN")
+    @Column(nullable = false)
     private boolean isDeleted=false;
 
     public void softDelete(String userName) {
