@@ -3,7 +3,6 @@ package com.sequence.seuqnece_backoffice_server.account.service;
 import com.sequence.seuqnece_backoffice_server.account.dto.AdminLoginRequestDto;
 import com.sequence.seuqnece_backoffice_server.account.dto.AdminLoginResponseDto;
 import com.sequence.seuqnece_backoffice_server.account.entity.Admin;
-import com.sequence.seuqnece_backoffice_server.account.repository.AdminRepository;
 import com.sequence.seuqnece_backoffice_server.global.exception.Code;
 import com.sequence.seuqnece_backoffice_server.global.exception.BaseException;
 import com.sequence.seuqnece_backoffice_server.security.dto.CustomUserDetails;
@@ -21,12 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class AdminLoginService {
+public class AdminLoginServiceImpl implements AdminLoginUseCase {
 
     private final AuthenticationManager authenticationManager;
     private final HttpServletRequest request;
 
-    public AdminLoginResponseDto login(AdminLoginRequestDto requestDto) {
+    @Override
+    public AdminLoginResponseDto execute(AdminLoginRequestDto requestDto) {
         try {
             // 1. Spring Security 인증 처리
             Authentication authentication = authenticationManager.authenticate(

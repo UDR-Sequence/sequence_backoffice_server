@@ -1,8 +1,7 @@
 package com.sequence.seuqnece_backoffice_server.account.controller;
 
-import com.sequence.seuqnece_backoffice_server.account.dto.AdminLoginRequestDto;
-import com.sequence.seuqnece_backoffice_server.account.dto.AdminLoginResponseDto;
-import com.sequence.seuqnece_backoffice_server.account.service.AdminLoginUseCase;
+import com.sequence.seuqnece_backoffice_server.account.dto.AdminSignupRequestDto;
+import com.sequence.seuqnece_backoffice_server.account.service.AdminSignupUseCase;
 import com.sequence.seuqnece_backoffice_server.global.dto.ApiResponseData;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,16 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
-public class AdminLoginController {
+public class AdminAccountSignUpController {
 
-    private final AdminLoginUseCase adminLoginService;
+    private final AdminSignupUseCase adminSignupService;
 
-    @PostMapping("/login")
-    public ResponseEntity<ApiResponseData<AdminLoginResponseDto>> login(
-            @Valid @RequestBody AdminLoginRequestDto requestDto) {
-        AdminLoginResponseDto responseDto = adminLoginService.execute(requestDto);
+    @PostMapping("/accounts")
+    public ResponseEntity<ApiResponseData<Void>> signup(
+            @Valid @RequestBody AdminSignupRequestDto requestDto) {
+        adminSignupService.execute(requestDto);
         return ResponseEntity
                 .ok()
-                .body(ApiResponseData.success(responseDto));
+                .body(ApiResponseData.success(null));
     }
 }

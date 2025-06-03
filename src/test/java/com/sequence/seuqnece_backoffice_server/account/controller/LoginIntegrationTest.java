@@ -4,6 +4,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import java.util.Map;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -11,13 +12,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(Lifecycle.PER_CLASS)
-public class LoginIntegrationTest {
+@Transactional
+@ActiveProfiles("test")
+class LoginIntegrationTest {
 
     @LocalServerPort
     int port;
@@ -33,19 +38,25 @@ public class LoginIntegrationTest {
     }
 
     @Test
+    @DisplayName("관리자 로그인 시 세션 쿠키가 발급되어야 한다")
     void login_then_access_protected_resource() {
-        // 1. 로그인 요청
-        Mono<ClientResponse> loginResponseMono = webClient.post()
-                .uri("/api/admin/login")
-                .bodyValue(Map.of(
-                        "username", "superadmin",
-                        "password", "password"
-                ))
-                .exchange();
+        // given
+        Map<String, String> loginRequest = Map.of(
+                "username", "superadmin",
+                "password", "password");
 
-        ClientResponse loginResponse = loginResponseMono.block();
-        String cookie = loginResponse.cookies().getFirst("JSESSIONID").getValue();
+        // when
+        ResponseEntity<Void> response = webClient.post()
+                .uri("/api/admin/login")
+                .bodyValue(loginRequest)
+                .retrieve()
+                .toBodilessEntity()
+                .block();
+
+        // then
+        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        String cookie = response.getHeaders().getFirst(HttpHeaders.SET_COOKIE);
         assertThat(cookie).isNotBlank();
-        assertThat(loginResponse.statusCode().is2xxSuccessful()).isTrue();
+        assertThat(cookie).contains("JSESSIONID");
     }
 }

@@ -11,24 +11,24 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AdminSignupService {
+public class AdminSignupServiceImpl implements AdminSignupUseCase {
 
     private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
 
-
+    @Override
     @Transactional
-    public void signup(AdminSignupRequestDto dto) {
-        if (adminRepository.existsByUsername(dto.username())) {
+    public void execute(AdminSignupRequestDto requestDto) {
+        if (adminRepository.existsByUsername(requestDto.username())) {
             throw new IllegalArgumentException("이미 존재하는 관리자 ID입니다.");
         }
 
         Admin admin = Admin.builder()
-                .username(dto.username())
-                .password(passwordEncoder.encode(dto.password()))
-                .name(dto.name())
-                .email(dto.email())
-                .adminRole(AdminRole.from(dto.adminRole()))
+                .username(requestDto.username())
+                .password(passwordEncoder.encode(requestDto.password()))
+                .name(requestDto.name())
+                .email(requestDto.email())
+                .adminRole(AdminRole.from(requestDto.adminRole()))
                 .build();
 
         adminRepository.save(admin);
