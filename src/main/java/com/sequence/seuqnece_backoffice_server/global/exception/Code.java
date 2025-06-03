@@ -25,14 +25,17 @@ public enum Code {
     /**
      * 400번대
      */
-    //유효하지 않은(잘못된) 입력값(40000 ~ 40099번대)
+    // 유효하지 않은(잘못된) 입력값(40000 ~ 40099번대)
     INVALID_INPUT(HttpStatus.BAD_REQUEST, 40000, "잘못된 값이 존재합니다."),
-    BAD_REQUEST(HttpStatus.BAD_REQUEST, 40101,"잘못된 인자값을 요청하였습니다." ),
+    BAD_REQUEST(HttpStatus.BAD_REQUEST, 40101, "잘못된 인자값을 요청하였습니다."),
 
-    //유효하지 않은 리소스(40100 ~ 40199번대
+    // 유효하지 않은 리소스(40100 ~ 40199번대
     USER_NOT_FOUND(HttpStatus.BAD_REQUEST, 40100, "사용자를 찾을 수 없습니다."),
-    //보안 관련(40200 ~ 40299번대)
+
+    // 보안 관련(40200 ~ 40299번대)
     REQUIRED_LOGIN(HttpStatus.UNAUTHORIZED, 40200, "로그인이 필요합니다."),
+    INVALID_CREDENTIALS(HttpStatus.UNAUTHORIZED, 40201, "아이디 또는 비밀번호가 일치하지 않습니다."),
+    ACCOUNT_NOT_FOUND(HttpStatus.UNAUTHORIZED, 40202, "존재하지 않는 계정입니다."),
     ACCESS_DENIED(HttpStatus.FORBIDDEN, 40204, "접근 권한이 없습니다."),
 
     /**
@@ -48,7 +51,6 @@ public enum Code {
 
     public String getMessage(Throwable e) {
         return this.getMessage(this.getMessage() + " - " + e.getMessage());
-        // 결과 예시 - "Validation error - Reason why it isn't valid"
     }
 
     public String getMessage(String message) {
