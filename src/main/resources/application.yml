@@ -25,3 +25,16 @@ spring:
 
   session:
     timeout: 30m  # ?? ???? ??
+
+  kafka:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}  # Kafka 브로커의 주소. 여러 개면 쉼표로 구분 (ex. host1:9092,host2:9092)
+      consumer:
+        group-id:       # Consumer Group ID. 같은 group-id를 가진 consumer는 하나의 메시지만 나눠 가져감
+        auto-offset-reset: earliest      # 처음 실행 시 offset 정보가 없을 경우, earliest는 가장 오래된 메시지부터 소비 / latest는 최신 메시지부터
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer   # Kafka 메시지 key를 역직렬화할 클래스 (String으로 처리)
+        value-deserializer: org.apache.kafka.common.serialization.StringDeserializer # Kafka 메시지 value를 역직렬화할 클래스 (String으로 처리)
+        properties:
+          spring.json.trusted.packages: "*"  # 모든 DTO 허용
+#      producer:
+#        key-serializer: org.apache.kafka.common.serialization.StringSerializer   # Kafka 메시지 key를 직렬화할 클래스
+#        value-serializer: org.apache.kafka.common.serialization.StringSerializer # Kafka 메시지 value를 직렬화할 클래스
