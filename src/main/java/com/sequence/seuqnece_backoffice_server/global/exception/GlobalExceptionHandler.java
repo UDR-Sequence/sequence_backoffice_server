@@ -78,9 +78,10 @@ public class GlobalExceptionHandler {
 * ---------------------------------------------------------------------------------------------------
 *
 */
-    // AuthException 예외 처리
+    // BaseException 예외 처리
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<ApiResponseData<String>> handleCustomNotFoundException(BaseException exception){
+        log.error("오류 코드 : {}, 메시지: {}", exception.getErrorCode().getCode(), exception.getMessage());
         Code code = exception.getErrorCode();
         // 반환할 메시지와 HTTP 상태 코드 설정
         return ResponseEntity.status(code.getStatus()).body(ApiResponseData.of(code.getCode(), code.getMessage()+": "+ exception.getMessage(),null));
