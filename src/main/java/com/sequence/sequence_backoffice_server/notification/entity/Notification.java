@@ -2,6 +2,7 @@ package com.sequence.sequence_backoffice_server.notification.entity;
 
 
 import com.sequence.sequence_backoffice_server.global.entity.BaseTimeEntity;
+import com.sequence.sequence_backoffice_server.notification.enums.NotificationStatus;
 import com.sequence.sequence_backoffice_server.notification.enums.NotificationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -44,6 +45,9 @@ public class Notification extends BaseTimeEntity {
 
     @Column(name="receiver_id", nullable = false)
     private Long receiverId; // 알림을 받는 사용자 ID
+
+    @Column(name="status")
+    private NotificationStatus status;
 
     public static Notification from(Long accessId, NotificationType notificationType, String content) {
         return Notification.builder()
