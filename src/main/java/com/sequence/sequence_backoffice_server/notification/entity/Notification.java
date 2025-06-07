@@ -42,6 +42,9 @@ public class Notification extends BaseTimeEntity {
     @Column(name="is_read", nullable = false)
     private Boolean isRead;
 
+    @Column(name="receiver_id", nullable = false)
+    private Long receiverId; // 알림을 받는 사용자 ID
+
     public static Notification from(Long accessId, NotificationType notificationType, String content) {
         return Notification.builder()
                 .accessId(accessId)
