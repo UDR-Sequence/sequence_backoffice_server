@@ -3,7 +3,7 @@ package com.sequence.sequence_backoffice_server.db_pooling.consumer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sequence.sequence_backoffice_server.db_pooling.service.ReportHandlerContext;
-import com.sequence.sequence_backoffice_server.db_pooling.dto.DBEventMessage;
+import com.sequence.sequence_backoffice_server.db_pooling.dto.ReportEventMessage;
 import com.sequence.sequence_backoffice_server.global.exception.MessageDeserializerException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ public class ReportMessageConsumer {
     )
     public void consume(String rawJson) { // String rawJson 대신 DBEventMessage를 직접 받음
         try {
-            DBEventMessage message = objectMapper.readValue(rawJson, DBEventMessage.class);
+            ReportEventMessage message = objectMapper.readValue(rawJson, ReportEventMessage.class);
             reportHandlerContext.handle(message);
         }catch (JsonProcessingException e){
             throw new MessageDeserializerException();
