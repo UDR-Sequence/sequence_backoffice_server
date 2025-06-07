@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-@Table
+@Table(name="notification")
 public class Notification extends BaseTimeEntity {
 
     @Id

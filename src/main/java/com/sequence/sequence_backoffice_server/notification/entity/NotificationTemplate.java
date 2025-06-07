@@ -20,8 +20,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder(access = AccessLevel.PRIVATE)
-@Table
+@Builder
+@Table(name = "notification_template")
 public class NotificationTemplate extends BaseTimeEntity {
 
     @Id

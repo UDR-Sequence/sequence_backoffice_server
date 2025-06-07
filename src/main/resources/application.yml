@@ -38,3 +38,8 @@ spring:
 #      producer:
 #        key-serializer: org.apache.kafka.common.serialization.StringSerializer   # Kafka 메시지 key를 직렬화할 클래스
 #        value-serializer: org.apache.kafka.common.serialization.StringSerializer # Kafka 메시지 value를 직렬화할 클래스
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql: trace
+    org.hibernate.metamodel.model.domain.internal: debug
