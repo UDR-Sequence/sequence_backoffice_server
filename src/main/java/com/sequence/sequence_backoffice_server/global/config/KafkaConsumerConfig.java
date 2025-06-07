@@ -1,11 +1,10 @@
 package com.sequence.sequence_backoffice_server.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sequence.sequence_backoffice_server.db_pooling.dto.DBEventMessage;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.common.serialization.StringDeserializer; // StringDeserializer 임포트
+import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +13,6 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.DefaultErrorHandler;
-// import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer; // 제거
-// import org.springframework.kafka.support.serializer.JsonDeserializer; // 제거
 import org.springframework.util.backoff.FixedBackOff;
 
 @Configuration

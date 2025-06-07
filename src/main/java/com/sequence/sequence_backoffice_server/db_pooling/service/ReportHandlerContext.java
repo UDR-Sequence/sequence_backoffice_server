@@ -17,7 +17,8 @@ public class ReportHandlerContext {
                 .collect(Collectors.toMap(ReportMessageHandlerStrategy::getSupportDBOpertation, strategy -> strategy));
     }
 
-    public void handle(String op, DBEventMessage DBEventMessage) {
+    public void handle(DBEventMessage DBEventMessage) {
+        String op = DBEventMessage.getPayload().getOp();
         ReportMessageHandlerStrategy reportMessageHandlerStrategy = reportStrategyMap.get(DBOpertation.from(op));
         if (reportMessageHandlerStrategy == null) {
             return;

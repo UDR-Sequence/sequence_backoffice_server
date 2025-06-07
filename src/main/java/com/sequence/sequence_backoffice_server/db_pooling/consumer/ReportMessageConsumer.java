@@ -27,8 +27,7 @@ public class ReportMessageConsumer {
     public void consume(String rawJson) { // String rawJson 대신 DBEventMessage를 직접 받음
         try {
             DBEventMessage message = objectMapper.readValue(rawJson, DBEventMessage.class);
-            String op = message.getPayload().getOp();
-            reportHandlerContext.handle(op, message);
+            reportHandlerContext.handle(message);
         }catch (JsonProcessingException e){
             throw new MessageDeserializerException();
         }
